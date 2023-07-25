@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- User Profile Info -->
+            <h3>{{ user.username }}</h3>
+            <!-- Add other user profile details here (e.g., profile picture, bio) -->
+        </div>
+        <div class="col-md-9">
+            <!-- User's Chirps -->
+            <ul class="list-group">
+                {% for chirp in chirps %}
+                <li class="list-group-item">{{ chirp.text }} - by {{ chirp.user.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

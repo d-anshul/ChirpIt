@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Timeline</h1>
+  <div class="chirp-form">
+    <form method="post" action="{{ url_for('timeline') }}">
+      <div class="form-group">
+        <textarea class="form-control" name="chirp_text" placeholder="What's on your mind?" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Chirp</button>
+    </form>
+  </div>
+  <hr>
+  <div class="chirp-list">
+    {% for chirp in chirps %}
+      <div class="chirp">
+        <p>{{ chirp.text }}</p>
+        <p class="text-muted">Posted by {{ chirp.user.username }} on {{ chirp.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
