@@ -13,9 +13,11 @@
   <hr>
   <div class="chirp-list">
     {% for chirp in chirps %}
-      <div class="chirp">
-        <p>{{ chirp.text }}</p>
-        <p class="text-muted">Posted by {{ chirp.user.username }} on {{ chirp.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+      <div class="card mt-3">
+        <div class="card-body">
+          <p>{{ chirp.text }}</p>
+          <p class="card-text text-muted">Posted by {{ chirp.user.username }} on {{ chirp.timestamp|humanize }}</p>
+        </div>
       </div>
     {% endfor %}
   </div>

@@ -3,18 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime  # Add this import
-
-# ... Rest of the code remains unchanged ...
+from flask_humanize import Humanize  # Add this import
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chirp.db'
 db = SQLAlchemy(app)
+humanize = Humanize(app)  # Initialize Humanize
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -90,6 +89,13 @@ def timeline():
 
     chirps = Chirp.query.order_by(Chirp.timestamp.desc()).all()
     return render_template('timeline.html', chirps=chirps)
+
+@app.route('/user/<username>')
+@login_required
+def user_profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    chirps = Chirp.query.filter_by(user_id=user.id).order_by(Chirp.timestamp.desc()).all()
+    return render_template('user_profile.html', user=user, chirps=chirps)
 
 
 @app.route('/logout')
