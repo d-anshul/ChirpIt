@@ -1,24 +1,24 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h1>Timeline</h1>
-  <div class="chirp-form">
-    <form method="post" action="{{ url_for('timeline') }}">
-      <div class="form-group">
-        <textarea class="form-control" name="chirp_text" placeholder="What's on your mind?" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Chirp</button>
-    </form>
-  </div>
-  <hr>
-  <div class="chirp-list">
-    {% for chirp in chirps %}
-      <div class="card mt-3">
-        <div class="card-body">
-          <p>{{ chirp.text }}</p>
-          <p class="card-text text-muted">Posted by {{ chirp.user.username }} on {{ chirp.timestamp|humanize }}</p>
+    <h1 class="mb-3">Timeline</h1>
+
+    <form method="POST">
+        <div class="mb-3">
+            <textarea name="chirp_text" class="form-control" placeholder="What's happening?" required></textarea>
         </div>
-      </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Chirp</button>
+        </div>
+    </form>
+
+    {% for chirp in chirps %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ chirp.user.username }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ chirp.timestamp|naturaltime }}</h6>
+                <p class="card-text">{{ chirp.text }}</p>
+                <a href="{{ url_for('chirp', chirp_id=chirp.id) }}" class="card-link">View Comments</a>
+            </div>
+        </div>
     {% endfor %}
-  </div>
 {% endblock %}

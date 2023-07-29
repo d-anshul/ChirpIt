@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="mb-3">Chirp</h1>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ chirp.user.username }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ chirp.timestamp|naturaltime }}</h6>
+            <p class="card-text">{{ chirp.text }}</p>
+        </div>
+    </div>
+
+    <h2 class="mb-3">Comments</h2>
+
+    <form method="POST">
+        <div class="mb-3">
+            <textarea name="comment_text" class="form-control" placeholder="Write a comment" required></textarea>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Comment</button>
+        </div>
+    </form>
+
+    {% for comment in chirp.comments %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ comment.user.username }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ comment.timestamp|naturaltime }}</h6>
+                <p class="card-text">{{ comment.text }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
